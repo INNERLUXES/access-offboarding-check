@@ -1,0 +1,36 @@
+Source: https://support.atlassian.com/organization-administration/docs/export-users-from-a-site/
+
+Atlassian Support, Organization administration: Export users from a site. Parts of the page read as text: the choice of
+users and statuses, and the first four rows of the table of columns. The example values of the table are left out, and the
+typographic quotes and dashes of the page are written as ASCII.
+
+If you need a list of your organization's users, you can export a list of your users in CSV format.
+
+Select the user status that you'd like to include:
+All users - Includes all active, suspended and deactivated users.
+
+Only active users - Only includes current active users in your organization.
+
+Understand the CSV spreadsheet
+The first row of the CSV spreadsheet are column headings. Everything below this is your organization's data.
+
+The following table describes what each column is and how it might look in your CSV spreadsheet.
+
+Column name / Description
+
+User ID
+The unique identifier for a user.
+
+User name
+The user's name.
+
+Email
+The user's email address.
+
+User status
+The status of the user in this organization:
+Active
+
+Suspended
+
+Deactivated

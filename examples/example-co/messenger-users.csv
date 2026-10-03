@@ -1,0 +1,9 @@
+handle,email,full_name,state
+alex,alex.chen@example.com,Alex Chen,active
+dana.r,dana.reyes@example.com,Dana Reyes,deactivated
+omar,omar.l@mail.example.org,Omar Lind,active
+tbecker,tom.becker@example.com,Tom Becker,active
+lea.h,lea.hoffmann@example.com,Lea Hoffmann,active
+kim,kim.park@example.com,Kim Park,active
+riley,riley.fox@studio.example.net,Riley Fox,active
+samo,sam.ortiz@example.com,Sam Ortiz,invited

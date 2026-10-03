@@ -1,0 +1,39 @@
+Source: https://www.rfc-editor.org/rfc/rfc5321
+
+RFC 5321, Simple Mail Transfer Protocol: section 2.3.11 and the second paragraph of section 2.4
+
+2.3.11.  Mailbox and Address
+
+   As used in this specification, an "address" is a character string
+   that identifies a user to whom mail will be sent or a location into
+   which mail will be deposited.  The term "mailbox" refers to that
+   depository.  The two terms are typically used interchangeably unless
+   the distinction between the location in which mail is placed (the
+   mailbox) and a reference to it (the address) is important.  An
+   address normally consists of user and domain specifications.  The
+   standard mailbox naming convention is defined to be
+   "local-part@domain"; contemporary usage permits a much broader set of
+   applications than simple "user names".  Consequently, and due to a
+   long history of problems when intermediate hosts have attempted to
+   optimize transport by modifying them, the local-part MUST be
+   interpreted and assigned semantics only by the host specified in the
+   domain part of the address.
+
+2.4.  General Syntax Principles and Transaction Model
+
+   [...]
+
+   Verbs and argument values (e.g., "TO:" or "to:" in the RCPT command
+   and extension name keywords) are not case sensitive, with the sole
+   exception in this specification of a mailbox local-part (SMTP
+   Extensions may explicitly specify case-sensitive elements).  That is,
+   a command verb, an argument value other than a mailbox local-part,
+   and free form text MAY be encoded in upper case, lower case, or any
+   mixture of upper and lower case with no impact on its meaning.  The
+   local-part of a mailbox MUST BE treated as case sensitive.
+   Therefore, SMTP implementations MUST take care to preserve the case
+   of mailbox local-parts.  In particular, for some hosts, the user
+   "smith" is different from the user "Smith".  However, exploiting the
+   case sensitivity of mailbox local-parts impedes interoperability and
+   is discouraged.  Mailbox domains follow normal DNS rules and are
+   hence not case sensitive.

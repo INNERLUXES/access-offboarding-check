@@ -1,0 +1,39 @@
+Source: https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json
+
+NIST SP 800-53 Rev. 5, the OSCAL catalog of the controls (metadata version 5.2.0). Two controls of the family PS, Personnel Security, read
+from the JSON and written out as text: the title, the statement with each item and its label, the parameters with their
+labels and guidelines, and the guidance. The text of each prose field is kept word for word; a parameter is written in the
+prose as the catalog writes it, {{ insert: param, <id> }}, and its label follows in the list of parameters.
+
+Control PS-4: Personnel Termination
+
+Parameters:
+  ps-04_odp.01 (label: time period): a time period within which to disable system access is defined;
+  ps-04_odp.02 (label: information security topics): information security topics to be discussed when conducting exit interviews are defined;
+
+Statement:
+  Upon termination of individual employment:
+  a. Disable system access within {{ insert: param, ps-04_odp.01 }};
+  b. Terminate or revoke any authenticators and credentials associated with the individual;
+  c. Conduct exit interviews that include a discussion of {{ insert: param, ps-04_odp.02 }};
+  d. Retrieve all security-related organizational system-related property; and
+  e. Retain access to organizational information and systems formerly controlled by terminated individual.
+
+Guidance:
+  System property includes hardware authentication tokens, system administration technical manuals, keys, identification cards, and building passes. Exit interviews ensure that terminated individuals understand the security constraints imposed by being former employees and that proper accountability is achieved for system-related property. Security topics at exit interviews include reminding individuals of nondisclosure agreements and potential limitations on future employment. Exit interviews may not always be possible for some individuals, including in cases related to the unavailability of supervisors, illnesses, or job abandonment. Exit interviews are important for individuals with security clearances. The timely execution of termination actions is essential for individuals who have been terminated for cause. In certain situations, organizations consider disabling the system accounts of individuals who are being terminated prior to the individuals being notified.
+
+Control PS-7: External Personnel Security
+
+Parameters:
+  ps-07_odp.01 (label: personnel or roles): personnel or roles to be notified of any personnel transfers or terminations of external personnel who possess organizational credentials and/or badges or who have system privileges is/are defined;
+  ps-07_odp.02 (label: time period): time period within which third-party providers are required to notify organization-defined personnel or roles of any personnel transfers or terminations of external personnel who possess organizational credentials and/or badges or who have system privileges is defined;
+
+Statement:
+  a. Establish personnel security requirements, including security roles and responsibilities for external providers;
+  b. Require external providers to comply with personnel security policies and procedures established by the organization;
+  c. Document personnel security requirements;
+  d. Require external providers to notify {{ insert: param, ps-07_odp.01 }} of any personnel transfers or terminations of external personnel who possess organizational credentials and/or badges, or who have system privileges within {{ insert: param, ps-07_odp.02 }} ; and
+  e. Monitor provider compliance with personnel security requirements.
+
+Guidance:
+  External provider refers to organizations other than the organization operating or acquiring the system. External providers include service bureaus, contractors, and other organizations that provide system development, information technology services, testing or assessment services, outsourced applications, and network/security management. Organizations explicitly include personnel security requirements in acquisition-related documents. External providers may have personnel working at organizational facilities with credentials, badges, or system privileges issued by organizations. Notifications of external personnel changes ensure the appropriate termination of privileges and credentials. Organizations define the transfers and terminations deemed reportable by security-related characteristics that include functions, roles, and the nature of credentials or privileges associated with transferred or terminated individuals.

@@ -1,0 +1,100 @@
+Source: https://docs.github.com/en/rest/orgs/members
+
+GitHub REST API documentation, Organization members: List organization members
+The section of this endpoint, read from the page as text. The line of the request example that sets the API version header is left out, because its value is a date.
+
+List organization members
+List all users who are members of an organization. If the authenticated user is also a member of this organization then both concealed and public members will be returned.
+
+Fine-grained access tokens for "List organization members"
+This endpoint works with the following fine-grained token types:
+GitHub App user access tokens
+GitHub App installation access tokens
+Fine-grained personal access tokens
+The fine-grained token must have the following permission set:
+"Members" organization permissions (read)
+This endpoint can be used without authentication or the aforementioned permissions if only public resources are requested.
+Parameters for "List organization members"
+HeadersName, Type, Description
+accept string
+Setting to application/vnd.github+json is recommended.
+
+Path parametersName, Type, Description
+org string Required
+The organization name. The name is not case sensitive.
+
+Query parametersName, Type, Description
+filter string
+Filter members returned in the list. 2fa_disabled means that only members without two-factor authentication enabled will be returned. 2fa_insecure means that only members with insecure 2FA methods will be returned. These options are only available for organization owners.
+
+Default: all
+Can be one of: 2fa_disabled, 2fa_insecure, all
+
+role string
+Filter members returned by their role.
+
+Default: all
+Can be one of: all, admin, member
+
+per_page integer
+The number of results per page (max 100). For more information, see "Using pagination in the REST API."
+
+Default: 30
+
+page integer
+The page number of the results to fetch. For more information, see "Using pagination in the REST API."
+
+Default: 1
+
+HTTP response status codes for "List organization members"
+Status codeDescription
+200OK
+
+422Validation failed, or the endpoint has been spammed.
+
+Code samples for "List organization members"
+Request example
+get/orgs/{org}/members
+
+cURL
+
+JavaScript
+
+GitHub CLI
+
+Copy to clipboard curl request example
+
+curl -L \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer <YOUR-TOKEN>" \
+  https://api.github.com/orgs/ORG/members
+
+Response
+
+Example response
+
+Response schema
+
+Status: 200
+[
+  {
+    "login": "octocat",
+    "id": 1,
+    "node_id": "MDQ6VXNlcjE=",
+    "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/octocat",
+    "html_url": "https://github.com/octocat",
+    "followers_url": "https://api.github.com/users/octocat/followers",
+    "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+    "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+    "organizations_url": "https://api.github.com/users/octocat/orgs",
+    "repos_url": "https://api.github.com/users/octocat/repos",
+    "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/octocat/received_events",
+    "type": "User",
+    "site_admin": false
+  }
+]

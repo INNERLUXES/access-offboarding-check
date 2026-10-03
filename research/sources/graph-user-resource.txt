@@ -1,0 +1,23 @@
+Source: https://learn.microsoft.com/en-us/graph/api/resources/user
+
+Microsoft Graph REST API v1.0, the user resource type. Part of the page read as text: the rows of the properties table
+for accountEnabled, displayName, mail and userPrincipalName (name, type, description); the notes under the rows are left
+out.
+
+Property / Type / Description
+
+accountEnabled
+Boolean
+true if the account is enabled; otherwise, false. This property is required when a user is created.
+
+displayName
+String
+The name displayed in the address book for the user. This value is usually the combination of the user's first name, middle initial, and family name. This property is required when a user is created and it can't be cleared during updates. Maximum length is 256 characters.
+
+mail
+String
+The SMTP address for the user, for example, jeff@contoso.com. Changes to this property update the user's proxyAddresses collection to include the value as an SMTP address. This property can't contain accent characters.
+
+userPrincipalName
+String
+The user principal name (UPN) of the user. The UPN is an Internet-style sign-in name for the user based on the Internet standard RFC 822. By convention, this value should map to the user's email name. The general format is alias@domain, where the domain must be present in the tenant's collection of verified domains. This property is required when a user is created. The verified domains for the tenant can be accessed from the verifiedDomains property of organization.

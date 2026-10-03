@@ -1,0 +1,33 @@
+{
+  "name": "Example Co",
+  "company": { "domains": ["example.com"] },
+  "email": {
+    "plusAddressing": true,
+    "domainAliases": { "old.example.com": "example.com" }
+  },
+  "leavers": {
+    "columns": {
+      "email": ["email"],
+      "username": ["code_login", "messenger_handle"],
+      "name": ["full_name"],
+      "end": "last_day"
+    }
+  },
+  "exports": [
+    { "name": "code", "preset": "github-org-members" },
+    { "name": "wiki", "preset": "atlassian-users", "companyAccountsOnly": true },
+    {
+      "name": "messenger",
+      "format": "csv",
+      "fields": { "username": ["handle"], "email": ["email"], "name": ["full_name"] },
+      "status": [{ "field": "state", "active": ["active"], "inactive": ["deactivated"] }],
+      "companyAccountsOnly": true
+    }
+  ],
+  "rules": {
+    "stillActive": { "graceDays": 7, "level": "error" },
+    "possibleMatch": { "level": "warning" },
+    "personalAddress": { "level": "warning" }
+  },
+  "failOn": "warning"
+}

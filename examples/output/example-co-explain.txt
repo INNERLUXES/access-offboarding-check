@@ -1,0 +1,161 @@
+access-offboarding-check: examples/config.json (Example Co)
+leavers: examples/example-co/leavers.csv (6 rows); end of work in the column last_day: 5 as days from the as-of day, 1 empty
+exports: code examples/example-co/code-members.json (JSON, preset github-org-members): 6 accounts, 6 active
+         wiki examples/example-co/wiki-users.csv (CSV, preset atlassian-users, company accounts only): 8 accounts, 6 active, 2 inactive
+         messenger examples/example-co/messenger-users.csv (CSV, company accounts only): 8 accounts, 6 active, 1 inactive, 1 with a status not listed
+matching: email addresses and usernames without case, the plus tag left out, 1 domain alias; full names give possible matches only
+rules: still-active (error, 7 grace days); possible-match (warning); personal-address (warning, company domains example.com)
+results: 6 leavers, 4 past their last day and grace days; 14 matched accounts: 11 active, 2 inactive, 1 possible by name
+findings: 10 (6 error, 4 warning); fail level warning
+
+Findings (10)
+
+  ERROR    still-active      examples/example-co/code-members.json:8
+           Dana Reyes: the account dreyes-dev in code is active; matched by username
+           why: active (listed; the export has no status field)
+           why: past the 7 grace days
+           why: username dreyes-dev in the leavers column code_login and dreyes-dev in the field login, equal as written
+           basis: "Terminate or revoke any authenticators and credentials associated with the individual;" (PS-4 Statement, https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json)
+           basis: "Notifications of external personnel changes ensure the appropriate termination of privileges and credentials." (PS-7 Guidance, https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json)
+
+  ERROR    still-active      examples/example-co/wiki-users.csv:4
+           Omar Lind: the account Omar Lind in wiki is active; matched by email address
+           why: active (User status Active)
+           why: past the 7 grace days
+           why: email address o***@example.com in the leavers column email and O***@Example.com in the field Email, equal after their normal form (read without case)
+           basis: "Terminate or revoke any authenticators and credentials associated with the individual;" (PS-4 Statement, https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json)
+           basis: "Notifications of external personnel changes ensure the appropriate termination of privileges and credentials." (PS-7 Guidance, https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json)
+
+  ERROR    still-active      examples/example-co/messenger-users.csv:4
+           Omar Lind: the account omar in messenger is active; matched by username
+           why: active (state active)
+           why: past the 7 grace days
+           why: username omar in the leavers column messenger_handle and omar in the field handle, equal as written
+           basis: "Terminate or revoke any authenticators and credentials associated with the individual;" (PS-4 Statement, https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json)
+           basis: "Notifications of external personnel changes ensure the appropriate termination of privileges and credentials." (PS-7 Guidance, https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json)
+
+  ERROR    still-active      examples/example-co/code-members.json:26
+           Priya Nair: the account PNair in code is active; matched by username
+           why: active (listed; the export has no status field)
+           why: past the 7 grace days
+           why: username pnair in the leavers column code_login and PNair in the field login, equal after their normal form (read without case)
+           basis: "Terminate or revoke any authenticators and credentials associated with the individual;" (PS-4 Statement, https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json)
+           basis: "Notifications of external personnel changes ensure the appropriate termination of privileges and credentials." (PS-7 Guidance, https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json)
+
+  ERROR    still-active      examples/example-co/wiki-users.csv:5
+           Priya Nair: the account Priya Nair in wiki is active; matched by email address
+           why: active (User status Active)
+           why: past the 7 grace days
+           why: email address P***@Example.com in the leavers column email and p***@example.com in the field Email, equal after their normal form (read without case; the plus tag left out)
+           basis: "Terminate or revoke any authenticators and credentials associated with the individual;" (PS-4 Statement, https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json)
+           basis: "Notifications of external personnel changes ensure the appropriate termination of privileges and credentials." (PS-7 Guidance, https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json)
+
+  ERROR    still-active      examples/example-co/messenger-users.csv:9
+           Sam Ortiz: the account samo in messenger is not marked inactive; matched by email address and username
+           why: status not listed in the configuration (state invited); counted as active
+           why: taken as left
+           why: email address s***@example.com in the leavers column email and s***@example.com in the field email, equal as written
+           why: username samo in the leavers column messenger_handle and samo in the field handle, equal as written
+           basis: "Terminate or revoke any authenticators and credentials associated with the individual;" (PS-4 Statement, https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json)
+           basis: "Notifications of external personnel changes ensure the appropriate termination of privileges and credentials." (PS-7 Guidance, https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json)
+
+  WARNING  possible-match    examples/example-co/wiki-users.csv:8
+           Sam Ortiz: the account Sam  Ortiz in wiki has the same full name and is active; a possible match, to check by hand
+           why: active (User status Active)
+           why: taken as left
+           why: full name Sam Ortiz in the leavers column full_name and Sam  Ortiz in the field User name, equal after their normal form (white space and case left out)
+           basis: "Terminate or revoke any authenticators and credentials associated with the individual;" (PS-4 Statement, https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json)
+
+  WARNING  personal-address  examples/example-co/wiki-users.csv:8
+           the account Sam  Ortiz in wiki has s***@mail.example.net outside the company domains
+           why: active (User status Active)
+           why: the field Email holds s***@mail.example.net, on the domain mail.example.net, which is not example.com
+           basis: "the local-part MUST be interpreted and assigned semantics only by the host specified in the domain part of the address." (2.3.11. Mailbox and Address, https://www.rfc-editor.org/rfc/rfc5321)
+           basis: "Establish personnel security requirements, including security roles and responsibilities for external providers;" (PS-7 Statement, https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json)
+
+  WARNING  personal-address  examples/example-co/messenger-users.csv:4
+           the account omar in messenger has o***@mail.example.org outside the company domains
+           why: active (state active)
+           why: the field email holds o***@mail.example.org, on the domain mail.example.org, which is not example.com
+           basis: "the local-part MUST be interpreted and assigned semantics only by the host specified in the domain part of the address." (2.3.11. Mailbox and Address, https://www.rfc-editor.org/rfc/rfc5321)
+           basis: "Establish personnel security requirements, including security roles and responsibilities for external providers;" (PS-7 Statement, https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json)
+
+  WARNING  personal-address  examples/example-co/messenger-users.csv:8
+           the account riley in messenger has r***@studio.example.net outside the company domains
+           why: active (state active)
+           why: the field email holds r***@studio.example.net, on the domain studio.example.net, which is not example.com
+           basis: "the local-part MUST be interpreted and assigned semantics only by the host specified in the domain part of the address." (2.3.11. Mailbox and Address, https://www.rfc-editor.org/rfc/rfc5321)
+           basis: "Establish personnel security requirements, including security roles and responsibilities for external providers;" (PS-7 Statement, https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json)
+
+Leavers (6)
+
+  Dana Reyes  (line 2)  last day 30 days before the as-of day; past the 7 grace days
+    identifiers: email d***@example.com; username dreyes-dev, dana.r; name Dana Reyes
+    code       dreyes-dev  active (listed)                     exact: username                 FINDING still-active
+      at examples/example-co/code-members.json:8
+      username dreyes-dev in the leavers column code_login and dreyes-dev in the field login, equal as written
+    wiki       Dana Reyes  inactive (User status Deactivated)  exact: email address
+      at examples/example-co/wiki-users.csv:3
+      email address d***@example.com in the leavers column email and d***@example.com in the field Email, equal as written
+    messenger  dana.r      inactive (state deactivated)        exact: email address, username
+      at examples/example-co/messenger-users.csv:3
+      email address d***@example.com in the leavers column email and d***@example.com in the field email, equal as written
+      username dana.r in the leavers column messenger_handle and dana.r in the field handle, equal as written
+
+  Omar Lind  (line 3)  last day 12 days before the as-of day; past the 7 grace days
+    identifiers: email o***@example.com; username omarl, omar; name Omar Lind
+    wiki       Omar Lind  active (User status Active)  exact: email address  FINDING still-active
+      at examples/example-co/wiki-users.csv:4
+      email address o***@example.com in the leavers column email and O***@Example.com in the field Email, equal after their normal form (read without case)
+    messenger  omar       active (state active)        exact: username       FINDING still-active
+      at examples/example-co/messenger-users.csv:4
+      username omar in the leavers column messenger_handle and omar in the field handle, equal as written
+
+  Priya Nair  (line 4)  last day 45 days before the as-of day; past the 7 grace days
+    identifiers: email P***@Example.com; username pnair, priya; name Priya Nair
+    code  PNair       active (listed)              exact: username       FINDING still-active
+      at examples/example-co/code-members.json:26
+      username pnair in the leavers column code_login and PNair in the field login, equal after their normal form (read without case)
+    wiki  Priya Nair  active (User status Active)  exact: email address  FINDING still-active
+      at examples/example-co/wiki-users.csv:5
+      email address P***@Example.com in the leavers column email and p***@example.com in the field Email, equal after their normal form (read without case; the plus tag left out)
+
+  Tom Becker  (line 5)  last day 5 days before the as-of day; in the grace period: 5 days of 7 grace days passed
+    identifiers: email t***@old.example.com; username tbecker-x, tbecker; name Tom Becker
+    code       tbecker-x   active (listed)              exact: username
+      at examples/example-co/code-members.json:32
+      username tbecker-x in the leavers column code_login and tbecker-x in the field login, equal as written
+    wiki       Tom Becker  active (User status Active)  exact: email address
+      at examples/example-co/wiki-users.csv:6
+      email address t***@old.example.com in the leavers column email and t***@example.com in the field Email, equal after their normal form (the domain old.example.com read as example.com)
+    messenger  tbecker     active (state active)        exact: email address, username
+      at examples/example-co/messenger-users.csv:5
+      email address t***@old.example.com in the leavers column email and t***@example.com in the field email, equal after their normal form (the domain old.example.com read as example.com)
+      username tbecker in the leavers column messenger_handle and tbecker in the field handle, equal as written
+
+  Lea Hoffmann  (line 6)  last day 3 days after the as-of day; still working: the last day of work is after the as-of day
+    identifiers: email l***@example.com; username leah, lea.h; name Lea Hoffmann
+    code       leah   active (listed)        exact: username
+      at examples/example-co/code-members.json:20
+      username leah in the leavers column code_login and leah in the field login, equal as written
+    messenger  lea.h  active (state active)  exact: email address, username
+      at examples/example-co/messenger-users.csv:6
+      email address l***@example.com in the leavers column email and l***@example.com in the field email, equal as written
+      username lea.h in the leavers column messenger_handle and lea.h in the field handle, equal as written
+
+  Sam Ortiz  (line 7)  no end of work given; taken as left
+    identifiers: email s***@example.com; username samo; name Sam Ortiz
+    wiki       Sam  Ortiz  active (User status Active)        possible: full name             FINDING possible-match
+      at examples/example-co/wiki-users.csv:8
+      full name Sam Ortiz in the leavers column full_name and Sam  Ortiz in the field User name, equal after their normal form (white space and case left out)
+    messenger  samo        counted as active (state invited)  exact: email address, username  FINDING still-active
+      at examples/example-co/messenger-users.csv:9
+      email address s***@example.com in the leavers column email and s***@example.com in the field email, equal as written
+      username samo in the leavers column messenger_handle and samo in the field handle, equal as written
+
+note: messenger: 1 account has a status the configuration does not list, and is counted as active
+note: 1 leaver has no end of work and is taken as left
+
+Email addresses are masked; --show-identifiers shows them.
+
+RESULT: FAIL - 10 findings at or above warning

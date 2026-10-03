@@ -1,0 +1,115 @@
+Source: https://developers.google.com/workspace/admin/directory/reference/rest/v1/users
+
+Google Workspace Admin SDK, Directory API reference: the User resource. Parts of the page read as text: the opening
+sentence, the start of the JSON representation down to the fields this tool reads, and the descriptions of primaryEmail,
+suspended, name, aliases[] and archived, and of fullName in UserName. The response of users.list is saved below the
+resource, from https://developers.google.com/workspace/admin/directory/reference/rest/v1/users/list.
+
+Resource: User
+
+The Directory API allows you to create and manage your account's users, user aliases, and user Google profile photos. For more information about common tasks, see the User Accounts Developer's Guide and the User Aliases Developer's Guide.
+
+JSON representation
+
+{
+  "id": string,
+  "primaryEmail": string,
+  "password": value,
+  "hashFunction": string,
+  "isAdmin": boolean,
+  "isDelegatedAdmin": boolean,
+  "agreedToTerms": boolean,
+  "suspended": boolean,
+  "changePasswordAtNextLogin": boolean,
+  "ipWhitelisted": boolean,
+  "name": {
+    object (UserName)
+  },
+  "kind": string,
+  "etag": string,
+  "emails": value,
+  "externalIds": value,
+  "relations": value,
+  "aliases": [
+    string
+  ],
+  "ims": value,
+  "customSchemas": value,
+  "isEnrolledIn2Sv": boolean,
+  "isEnforcedIn2Sv": boolean,
+  "archived": boolean,
+  [...]
+}
+
+Fields
+
+primaryEmail
+
+  string
+
+  The user's primary email address. This property is required in a request to create a user account. The primaryEmail must be unique and cannot be an alias of another user.
+
+suspended
+
+  boolean
+
+  Indicates if user is suspended.
+
+name
+
+  object (UserName)
+
+  Holds the given and family names of the user, and the read-only fullName value.
+
+aliases[]
+
+  string
+
+  Output only. The list of the user's alias email addresses.
+
+archived
+
+  boolean
+
+  Indicates if user is archived.
+
+UserName
+
+JSON representation
+
+{
+  "fullName": string,
+  "familyName": string,
+  "givenName": string,
+  "displayName": string
+}
+
+fullName
+
+  string
+
+  The user's full name formed by concatenating the first and last name values.
+
+Method: users.list, response body (https://developers.google.com/workspace/admin/directory/reference/rest/v1/users/list)
+
+If successful, the response body contains data with the following structure:
+
+JSON representation
+
+{
+  "kind": string,
+  "trigger_event": string,
+  "etag": string,
+  "users": [
+    {
+      object (User)
+    }
+  ],
+  "nextPageToken": string
+}
+
+users[]
+
+  object (User)
+
+  A list of user objects.

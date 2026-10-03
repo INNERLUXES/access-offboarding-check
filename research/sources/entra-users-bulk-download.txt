@@ -1,0 +1,47 @@
+Source: https://learn.microsoft.com/en-us/entra/identity/users/users-bulk-download
+
+Microsoft Learn, Microsoft Entra ID: Download a list of users in the Azure portal. Part of the page read as text: the
+steps and the list of user attributes the download file holds.
+
+Microsoft Entra ID, part of Microsoft Entra, supports bulk user list download operations.
+
+To download a list of users
+
+Sign in to the Microsoft Entra admin center.
+Select Microsoft Entra ID.
+Select Users > All users > Download users. By default, all user profiles are exported.
+On the Download users page, select Start to receive a CSV file listing user profile properties. If there are errors, you can download and view the results file on the Bulk operation results page. The file contains the reason for each error.
+
+Note
+The download file will contain the filtered list of users based on the scope of the filters applied.
+
+The following user attributes are included:
+userPrincipalName
+displayName
+surname
+mail
+givenName
+objectId
+userType
+jobTitle
+department
+accountEnabled
+usageLocation
+streetAddress
+state
+country
+physicalDeliveryOfficeName
+city
+postalCode
+telephoneNumber
+mobile
+authenticationAlternativePhoneNumber
+authenticationEmail
+alternateEmailAddress
+ageGroup
+consentProvidedForMinor
+legalAgeGroupClassification
+
+Improved bulk user download in Microsoft Entra admin center (Preview)
+
+Customizable columns for export: Previously, user exports included only a fixed set of predefined attributes. With this update, admins can customize their User List View columns, and the export will mirror those selected columns. This gives IT admins greater control and relevance in the data they download.

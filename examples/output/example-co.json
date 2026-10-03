@@ -1,0 +1,783 @@
+{
+  "tool": "access-offboarding-check",
+  "version": "1.0.0",
+  "config": {
+    "file": "examples/config.json",
+    "name": "Example Co",
+    "failOn": "warning",
+    "companyDomains": [
+      "example.com"
+    ],
+    "plusAddressing": true,
+    "domainAliases": 1,
+    "rules": [
+      {
+        "id": "still-active",
+        "level": "error",
+        "graceDays": 7,
+        "rule": "an account that is active, or has a status the configuration does not list, matches a leaver by email address or username, and more than 7 days have passed since the last day of work"
+      },
+      {
+        "id": "possible-match",
+        "level": "warning",
+        "rule": "an account that is active, or has a status the configuration does not list, matches a leaver by full name only, after the last day of work (and its grace days, when still-active is stated); a name is never an exact match"
+      },
+      {
+        "id": "personal-address",
+        "level": "warning",
+        "rule": "an account that is active, or has a status the configuration does not list, in an export with companyAccountsOnly, has an email address whose domain is not example.com"
+      }
+    ]
+  },
+  "inputs": {
+    "leavers": {
+      "file": "examples/example-co/leavers.csv",
+      "rows": 6,
+      "endColumn": "last_day",
+      "ends": {
+        "relative": 5,
+        "date": 0,
+        "none": 1
+      }
+    },
+    "asOf": null,
+    "exports": [
+      {
+        "name": "code",
+        "file": "examples/example-co/code-members.json",
+        "format": "json",
+        "preset": "github-org-members",
+        "companyAccountsOnly": false,
+        "accounts": 6,
+        "active": 6,
+        "inactive": 0,
+        "unknown": 0
+      },
+      {
+        "name": "wiki",
+        "file": "examples/example-co/wiki-users.csv",
+        "format": "csv",
+        "preset": "atlassian-users",
+        "companyAccountsOnly": true,
+        "accounts": 8,
+        "active": 6,
+        "inactive": 2,
+        "unknown": 0
+      },
+      {
+        "name": "messenger",
+        "file": "examples/example-co/messenger-users.csv",
+        "format": "csv",
+        "preset": null,
+        "companyAccountsOnly": true,
+        "accounts": 8,
+        "active": 6,
+        "inactive": 1,
+        "unknown": 1
+      }
+    ]
+  },
+  "totals": {
+    "leavers": 6,
+    "due": 4,
+    "exports": 3,
+    "accounts": 22,
+    "matched": 14,
+    "exactLive": 11,
+    "exactInactive": 2,
+    "possible": 1
+  },
+  "showIdentifiers": false,
+  "findings": [
+    {
+      "rule": "still-active",
+      "level": "error",
+      "export": "code",
+      "leaver": "Dana Reyes",
+      "at": "examples/example-co/code-members.json:8",
+      "line": 8,
+      "item": 2,
+      "found": "Dana Reyes: the account dreyes-dev in code is active; matched by username",
+      "why": [
+        "active (listed; the export has no status field)",
+        "past the 7 grace days",
+        "username dreyes-dev in the leavers column code_login and dreyes-dev in the field login, equal as written"
+      ],
+      "basis": [
+        {
+          "source": "nist-ps",
+          "section": "PS-4 Statement",
+          "text": "Terminate or revoke any authenticators and credentials associated with the individual;",
+          "page": "https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json"
+        },
+        {
+          "source": "nist-ps",
+          "section": "PS-7 Guidance",
+          "text": "Notifications of external personnel changes ensure the appropriate termination of privileges and credentials.",
+          "page": "https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json"
+        }
+      ]
+    },
+    {
+      "rule": "still-active",
+      "level": "error",
+      "export": "wiki",
+      "leaver": "Omar Lind",
+      "at": "examples/example-co/wiki-users.csv:4",
+      "line": 4,
+      "item": 3,
+      "found": "Omar Lind: the account Omar Lind in wiki is active; matched by email address",
+      "why": [
+        "active (User status Active)",
+        "past the 7 grace days",
+        "email address o***@example.com in the leavers column email and O***@Example.com in the field Email, equal after their normal form (read without case)"
+      ],
+      "basis": [
+        {
+          "source": "nist-ps",
+          "section": "PS-4 Statement",
+          "text": "Terminate or revoke any authenticators and credentials associated with the individual;",
+          "page": "https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json"
+        },
+        {
+          "source": "nist-ps",
+          "section": "PS-7 Guidance",
+          "text": "Notifications of external personnel changes ensure the appropriate termination of privileges and credentials.",
+          "page": "https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json"
+        }
+      ]
+    },
+    {
+      "rule": "still-active",
+      "level": "error",
+      "export": "messenger",
+      "leaver": "Omar Lind",
+      "at": "examples/example-co/messenger-users.csv:4",
+      "line": 4,
+      "item": 3,
+      "found": "Omar Lind: the account omar in messenger is active; matched by username",
+      "why": [
+        "active (state active)",
+        "past the 7 grace days",
+        "username omar in the leavers column messenger_handle and omar in the field handle, equal as written"
+      ],
+      "basis": [
+        {
+          "source": "nist-ps",
+          "section": "PS-4 Statement",
+          "text": "Terminate or revoke any authenticators and credentials associated with the individual;",
+          "page": "https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json"
+        },
+        {
+          "source": "nist-ps",
+          "section": "PS-7 Guidance",
+          "text": "Notifications of external personnel changes ensure the appropriate termination of privileges and credentials.",
+          "page": "https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json"
+        }
+      ]
+    },
+    {
+      "rule": "still-active",
+      "level": "error",
+      "export": "code",
+      "leaver": "Priya Nair",
+      "at": "examples/example-co/code-members.json:26",
+      "line": 26,
+      "item": 5,
+      "found": "Priya Nair: the account PNair in code is active; matched by username",
+      "why": [
+        "active (listed; the export has no status field)",
+        "past the 7 grace days",
+        "username pnair in the leavers column code_login and PNair in the field login, equal after their normal form (read without case)"
+      ],
+      "basis": [
+        {
+          "source": "nist-ps",
+          "section": "PS-4 Statement",
+          "text": "Terminate or revoke any authenticators and credentials associated with the individual;",
+          "page": "https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json"
+        },
+        {
+          "source": "nist-ps",
+          "section": "PS-7 Guidance",
+          "text": "Notifications of external personnel changes ensure the appropriate termination of privileges and credentials.",
+          "page": "https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json"
+        }
+      ]
+    },
+    {
+      "rule": "still-active",
+      "level": "error",
+      "export": "wiki",
+      "leaver": "Priya Nair",
+      "at": "examples/example-co/wiki-users.csv:5",
+      "line": 5,
+      "item": 4,
+      "found": "Priya Nair: the account Priya Nair in wiki is active; matched by email address",
+      "why": [
+        "active (User status Active)",
+        "past the 7 grace days",
+        "email address P***@Example.com in the leavers column email and p***@example.com in the field Email, equal after their normal form (read without case; the plus tag left out)"
+      ],
+      "basis": [
+        {
+          "source": "nist-ps",
+          "section": "PS-4 Statement",
+          "text": "Terminate or revoke any authenticators and credentials associated with the individual;",
+          "page": "https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json"
+        },
+        {
+          "source": "nist-ps",
+          "section": "PS-7 Guidance",
+          "text": "Notifications of external personnel changes ensure the appropriate termination of privileges and credentials.",
+          "page": "https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json"
+        }
+      ]
+    },
+    {
+      "rule": "still-active",
+      "level": "error",
+      "export": "messenger",
+      "leaver": "Sam Ortiz",
+      "at": "examples/example-co/messenger-users.csv:9",
+      "line": 9,
+      "item": 8,
+      "found": "Sam Ortiz: the account samo in messenger is not marked inactive; matched by email address and username",
+      "why": [
+        "status not listed in the configuration (state invited); counted as active",
+        "taken as left",
+        "email address s***@example.com in the leavers column email and s***@example.com in the field email, equal as written",
+        "username samo in the leavers column messenger_handle and samo in the field handle, equal as written"
+      ],
+      "basis": [
+        {
+          "source": "nist-ps",
+          "section": "PS-4 Statement",
+          "text": "Terminate or revoke any authenticators and credentials associated with the individual;",
+          "page": "https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json"
+        },
+        {
+          "source": "nist-ps",
+          "section": "PS-7 Guidance",
+          "text": "Notifications of external personnel changes ensure the appropriate termination of privileges and credentials.",
+          "page": "https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json"
+        }
+      ]
+    },
+    {
+      "rule": "possible-match",
+      "level": "warning",
+      "export": "wiki",
+      "leaver": "Sam Ortiz",
+      "at": "examples/example-co/wiki-users.csv:8",
+      "line": 8,
+      "item": 7,
+      "found": "Sam Ortiz: the account Sam  Ortiz in wiki has the same full name and is active; a possible match, to check by hand",
+      "why": [
+        "active (User status Active)",
+        "taken as left",
+        "full name Sam Ortiz in the leavers column full_name and Sam  Ortiz in the field User name, equal after their normal form (white space and case left out)"
+      ],
+      "basis": [
+        {
+          "source": "nist-ps",
+          "section": "PS-4 Statement",
+          "text": "Terminate or revoke any authenticators and credentials associated with the individual;",
+          "page": "https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json"
+        }
+      ]
+    },
+    {
+      "rule": "personal-address",
+      "level": "warning",
+      "export": "wiki",
+      "leaver": null,
+      "at": "examples/example-co/wiki-users.csv:8",
+      "line": 8,
+      "item": 7,
+      "found": "the account Sam  Ortiz in wiki has s***@mail.example.net outside the company domains",
+      "why": [
+        "active (User status Active)",
+        "the field Email holds s***@mail.example.net, on the domain mail.example.net, which is not example.com"
+      ],
+      "basis": [
+        {
+          "source": "rfc5321",
+          "section": "2.3.11. Mailbox and Address",
+          "text": "the local-part MUST be interpreted and assigned semantics only by the host specified in the domain part of the address.",
+          "page": "https://www.rfc-editor.org/rfc/rfc5321"
+        },
+        {
+          "source": "nist-ps",
+          "section": "PS-7 Statement",
+          "text": "Establish personnel security requirements, including security roles and responsibilities for external providers;",
+          "page": "https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json"
+        }
+      ]
+    },
+    {
+      "rule": "personal-address",
+      "level": "warning",
+      "export": "messenger",
+      "leaver": null,
+      "at": "examples/example-co/messenger-users.csv:4",
+      "line": 4,
+      "item": 3,
+      "found": "the account omar in messenger has o***@mail.example.org outside the company domains",
+      "why": [
+        "active (state active)",
+        "the field email holds o***@mail.example.org, on the domain mail.example.org, which is not example.com"
+      ],
+      "basis": [
+        {
+          "source": "rfc5321",
+          "section": "2.3.11. Mailbox and Address",
+          "text": "the local-part MUST be interpreted and assigned semantics only by the host specified in the domain part of the address.",
+          "page": "https://www.rfc-editor.org/rfc/rfc5321"
+        },
+        {
+          "source": "nist-ps",
+          "section": "PS-7 Statement",
+          "text": "Establish personnel security requirements, including security roles and responsibilities for external providers;",
+          "page": "https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json"
+        }
+      ]
+    },
+    {
+      "rule": "personal-address",
+      "level": "warning",
+      "export": "messenger",
+      "leaver": null,
+      "at": "examples/example-co/messenger-users.csv:8",
+      "line": 8,
+      "item": 7,
+      "found": "the account riley in messenger has r***@studio.example.net outside the company domains",
+      "why": [
+        "active (state active)",
+        "the field email holds r***@studio.example.net, on the domain studio.example.net, which is not example.com"
+      ],
+      "basis": [
+        {
+          "source": "rfc5321",
+          "section": "2.3.11. Mailbox and Address",
+          "text": "the local-part MUST be interpreted and assigned semantics only by the host specified in the domain part of the address.",
+          "page": "https://www.rfc-editor.org/rfc/rfc5321"
+        },
+        {
+          "source": "nist-ps",
+          "section": "PS-7 Statement",
+          "text": "Establish personnel security requirements, including security roles and responsibilities for external providers;",
+          "page": "https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json"
+        }
+      ]
+    }
+  ],
+  "leavers": [
+    {
+      "label": "Dana Reyes",
+      "line": 2,
+      "identifiers": {
+        "email": [
+          "d***@example.com"
+        ],
+        "username": [
+          "dreyes-dev",
+          "dana.r"
+        ],
+        "name": [
+          "Dana Reyes"
+        ]
+      },
+      "end": "last day 30 days before the as-of day",
+      "daysSinceEnd": 30,
+      "due": true,
+      "dueText": "past the 7 grace days",
+      "accounts": [
+        {
+          "export": "code",
+          "at": "examples/example-co/code-members.json:8",
+          "item": 2,
+          "line": 8,
+          "account": "dreyes-dev",
+          "status": "active",
+          "statusText": "active (listed; the export has no status field)",
+          "statusShort": "active (listed)",
+          "strength": "exact",
+          "matchedBy": [
+            "username"
+          ],
+          "reasons": [
+            "username dreyes-dev in the leavers column code_login and dreyes-dev in the field login, equal as written"
+          ],
+          "finding": "still-active"
+        },
+        {
+          "export": "wiki",
+          "at": "examples/example-co/wiki-users.csv:3",
+          "item": 2,
+          "line": 3,
+          "account": "Dana Reyes",
+          "status": "inactive",
+          "statusText": "inactive (User status Deactivated)",
+          "statusShort": "inactive (User status Deactivated)",
+          "strength": "exact",
+          "matchedBy": [
+            "email address"
+          ],
+          "reasons": [
+            "email address d***@example.com in the leavers column email and d***@example.com in the field Email, equal as written"
+          ],
+          "finding": null
+        },
+        {
+          "export": "messenger",
+          "at": "examples/example-co/messenger-users.csv:3",
+          "item": 2,
+          "line": 3,
+          "account": "dana.r",
+          "status": "inactive",
+          "statusText": "inactive (state deactivated)",
+          "statusShort": "inactive (state deactivated)",
+          "strength": "exact",
+          "matchedBy": [
+            "email address",
+            "username"
+          ],
+          "reasons": [
+            "email address d***@example.com in the leavers column email and d***@example.com in the field email, equal as written",
+            "username dana.r in the leavers column messenger_handle and dana.r in the field handle, equal as written"
+          ],
+          "finding": null
+        }
+      ]
+    },
+    {
+      "label": "Omar Lind",
+      "line": 3,
+      "identifiers": {
+        "email": [
+          "o***@example.com"
+        ],
+        "username": [
+          "omarl",
+          "omar"
+        ],
+        "name": [
+          "Omar Lind"
+        ]
+      },
+      "end": "last day 12 days before the as-of day",
+      "daysSinceEnd": 12,
+      "due": true,
+      "dueText": "past the 7 grace days",
+      "accounts": [
+        {
+          "export": "wiki",
+          "at": "examples/example-co/wiki-users.csv:4",
+          "item": 3,
+          "line": 4,
+          "account": "Omar Lind",
+          "status": "active",
+          "statusText": "active (User status Active)",
+          "statusShort": "active (User status Active)",
+          "strength": "exact",
+          "matchedBy": [
+            "email address"
+          ],
+          "reasons": [
+            "email address o***@example.com in the leavers column email and O***@Example.com in the field Email, equal after their normal form (read without case)"
+          ],
+          "finding": "still-active"
+        },
+        {
+          "export": "messenger",
+          "at": "examples/example-co/messenger-users.csv:4",
+          "item": 3,
+          "line": 4,
+          "account": "omar",
+          "status": "active",
+          "statusText": "active (state active)",
+          "statusShort": "active (state active)",
+          "strength": "exact",
+          "matchedBy": [
+            "username"
+          ],
+          "reasons": [
+            "username omar in the leavers column messenger_handle and omar in the field handle, equal as written"
+          ],
+          "finding": "still-active"
+        }
+      ]
+    },
+    {
+      "label": "Priya Nair",
+      "line": 4,
+      "identifiers": {
+        "email": [
+          "P***@Example.com"
+        ],
+        "username": [
+          "pnair",
+          "priya"
+        ],
+        "name": [
+          "Priya Nair"
+        ]
+      },
+      "end": "last day 45 days before the as-of day",
+      "daysSinceEnd": 45,
+      "due": true,
+      "dueText": "past the 7 grace days",
+      "accounts": [
+        {
+          "export": "code",
+          "at": "examples/example-co/code-members.json:26",
+          "item": 5,
+          "line": 26,
+          "account": "PNair",
+          "status": "active",
+          "statusText": "active (listed; the export has no status field)",
+          "statusShort": "active (listed)",
+          "strength": "exact",
+          "matchedBy": [
+            "username"
+          ],
+          "reasons": [
+            "username pnair in the leavers column code_login and PNair in the field login, equal after their normal form (read without case)"
+          ],
+          "finding": "still-active"
+        },
+        {
+          "export": "wiki",
+          "at": "examples/example-co/wiki-users.csv:5",
+          "item": 4,
+          "line": 5,
+          "account": "Priya Nair",
+          "status": "active",
+          "statusText": "active (User status Active)",
+          "statusShort": "active (User status Active)",
+          "strength": "exact",
+          "matchedBy": [
+            "email address"
+          ],
+          "reasons": [
+            "email address P***@Example.com in the leavers column email and p***@example.com in the field Email, equal after their normal form (read without case; the plus tag left out)"
+          ],
+          "finding": "still-active"
+        }
+      ]
+    },
+    {
+      "label": "Tom Becker",
+      "line": 5,
+      "identifiers": {
+        "email": [
+          "t***@old.example.com"
+        ],
+        "username": [
+          "tbecker-x",
+          "tbecker"
+        ],
+        "name": [
+          "Tom Becker"
+        ]
+      },
+      "end": "last day 5 days before the as-of day",
+      "daysSinceEnd": 5,
+      "due": false,
+      "dueText": "in the grace period: 5 days of 7 grace days passed",
+      "accounts": [
+        {
+          "export": "code",
+          "at": "examples/example-co/code-members.json:32",
+          "item": 6,
+          "line": 32,
+          "account": "tbecker-x",
+          "status": "active",
+          "statusText": "active (listed; the export has no status field)",
+          "statusShort": "active (listed)",
+          "strength": "exact",
+          "matchedBy": [
+            "username"
+          ],
+          "reasons": [
+            "username tbecker-x in the leavers column code_login and tbecker-x in the field login, equal as written"
+          ],
+          "finding": null
+        },
+        {
+          "export": "wiki",
+          "at": "examples/example-co/wiki-users.csv:6",
+          "item": 5,
+          "line": 6,
+          "account": "Tom Becker",
+          "status": "active",
+          "statusText": "active (User status Active)",
+          "statusShort": "active (User status Active)",
+          "strength": "exact",
+          "matchedBy": [
+            "email address"
+          ],
+          "reasons": [
+            "email address t***@old.example.com in the leavers column email and t***@example.com in the field Email, equal after their normal form (the domain old.example.com read as example.com)"
+          ],
+          "finding": null
+        },
+        {
+          "export": "messenger",
+          "at": "examples/example-co/messenger-users.csv:5",
+          "item": 4,
+          "line": 5,
+          "account": "tbecker",
+          "status": "active",
+          "statusText": "active (state active)",
+          "statusShort": "active (state active)",
+          "strength": "exact",
+          "matchedBy": [
+            "email address",
+            "username"
+          ],
+          "reasons": [
+            "email address t***@old.example.com in the leavers column email and t***@example.com in the field email, equal after their normal form (the domain old.example.com read as example.com)",
+            "username tbecker in the leavers column messenger_handle and tbecker in the field handle, equal as written"
+          ],
+          "finding": null
+        }
+      ]
+    },
+    {
+      "label": "Lea Hoffmann",
+      "line": 6,
+      "identifiers": {
+        "email": [
+          "l***@example.com"
+        ],
+        "username": [
+          "leah",
+          "lea.h"
+        ],
+        "name": [
+          "Lea Hoffmann"
+        ]
+      },
+      "end": "last day 3 days after the as-of day",
+      "daysSinceEnd": -3,
+      "due": false,
+      "dueText": "still working: the last day of work is after the as-of day",
+      "accounts": [
+        {
+          "export": "code",
+          "at": "examples/example-co/code-members.json:20",
+          "item": 4,
+          "line": 20,
+          "account": "leah",
+          "status": "active",
+          "statusText": "active (listed; the export has no status field)",
+          "statusShort": "active (listed)",
+          "strength": "exact",
+          "matchedBy": [
+            "username"
+          ],
+          "reasons": [
+            "username leah in the leavers column code_login and leah in the field login, equal as written"
+          ],
+          "finding": null
+        },
+        {
+          "export": "messenger",
+          "at": "examples/example-co/messenger-users.csv:6",
+          "item": 5,
+          "line": 6,
+          "account": "lea.h",
+          "status": "active",
+          "statusText": "active (state active)",
+          "statusShort": "active (state active)",
+          "strength": "exact",
+          "matchedBy": [
+            "email address",
+            "username"
+          ],
+          "reasons": [
+            "email address l***@example.com in the leavers column email and l***@example.com in the field email, equal as written",
+            "username lea.h in the leavers column messenger_handle and lea.h in the field handle, equal as written"
+          ],
+          "finding": null
+        }
+      ]
+    },
+    {
+      "label": "Sam Ortiz",
+      "line": 7,
+      "identifiers": {
+        "email": [
+          "s***@example.com"
+        ],
+        "username": [
+          "samo"
+        ],
+        "name": [
+          "Sam Ortiz"
+        ]
+      },
+      "end": "no end of work given",
+      "daysSinceEnd": null,
+      "due": true,
+      "dueText": "taken as left",
+      "accounts": [
+        {
+          "export": "wiki",
+          "at": "examples/example-co/wiki-users.csv:8",
+          "item": 7,
+          "line": 8,
+          "account": "Sam  Ortiz",
+          "status": "active",
+          "statusText": "active (User status Active)",
+          "statusShort": "active (User status Active)",
+          "strength": "possible",
+          "matchedBy": [
+            "full name"
+          ],
+          "reasons": [
+            "full name Sam Ortiz in the leavers column full_name and Sam  Ortiz in the field User name, equal after their normal form (white space and case left out)"
+          ],
+          "finding": "possible-match"
+        },
+        {
+          "export": "messenger",
+          "at": "examples/example-co/messenger-users.csv:9",
+          "item": 8,
+          "line": 9,
+          "account": "samo",
+          "status": "unknown",
+          "statusText": "status not listed in the configuration (state invited); counted as active",
+          "statusShort": "counted as active (state invited)",
+          "strength": "exact",
+          "matchedBy": [
+            "email address",
+            "username"
+          ],
+          "reasons": [
+            "email address s***@example.com in the leavers column email and s***@example.com in the field email, equal as written",
+            "username samo in the leavers column messenger_handle and samo in the field handle, equal as written"
+          ],
+          "finding": "still-active"
+        }
+      ]
+    }
+  ],
+  "verdict": {
+    "pass": false,
+    "failOn": "warning",
+    "failing": 10,
+    "byLevel": {
+      "error": 6,
+      "warning": 4,
+      "notice": 0
+    },
+    "text": "FAIL - 10 findings at or above warning"
+  },
+  "notes": [
+    "messenger: 1 account has a status the configuration does not list, and is counted as active",
+    "1 leaver has no end of work and is taken as left"
+  ]
+}
