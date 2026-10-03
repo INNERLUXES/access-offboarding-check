@@ -1,0 +1,17 @@
+export { SOURCES, FACTS, LEVELS, IDENTIFIER_KINDS, EXPORT_FORMATS, source, factPage } from './data.js';
+export { PRESETS, PRESET_NAMES } from './presets.js';
+export { grouped, listText, plural } from './size.js';
+export { safeText, flat } from './text.js';
+export { JSON_LIMITS, JsonError, lineStarts, positionOf, parseJson, jsonProblem } from './json.js';
+export { CSV_LIMITS, CsvError, isDelimiter, parseCsv } from './csv.js';
+export { IDENTITY_LIMITS, parseEmail, emailKey, usernameKey, nameKey, maskEmail, shownValue, companyDomainOf } from './identity.js';
+export { DAY_LIMITS, dayOfDate, dateOfDay, readEnd, daysSinceEnd } from './days.js';
+export { FILE_LIMITS, fileError, readBounded, displayPath, isBinary, decodeText, readTextFile, writeReport } from './files.js';
+export { CONFIG_LIMITS, DEFAULTS, KEYS, EXPORT_KEYS, STATUS_KEYS, RULE_IDS, ConfigError, validateConfig, readConfig } from './config.js';
+export { LEAVER_LIMITS, MAX_PROBLEMS, capProblems, LeaversError, columnIndex, readLeavers } from './leavers.js';
+export { ACCOUNT_LIMITS, ExportError, valueAt, statusOf, readExport } from './accounts.js';
+export { buildIndex, matchAccount, outsideAddresses } from './match.js';
+export { RULES, ruleById, atOrAbove, dueOf, decide } from './rules.js';
+export { LIMITS, InputError, buildReport, checkPaths, presetList } from './check.js';
+export { guardFormula, mdCell, toText, toMarkdown, toJson } from './report.js';
+export { parseArgs, main, USAGE, VERSION } from './cli.js';

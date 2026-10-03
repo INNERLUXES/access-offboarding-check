@@ -1,0 +1,50 @@
+{
+  "name": "access-offboarding-check",
+  "version": "1.0.0",
+  "description": "Find access left behind after people stopped working for a company: contractors, augmented staff and employees. Reads a CSV file of leavers and the account exports of your tools (CSV or JSON, with presets for GitHub, Google Workspace, Microsoft Entra ID and Atlassian), matches the accounts to the leavers by email address and username, and by full name as a possible match only, and reports every account that is still active with the tool, the field that matched and the row, plus active accounts with an address outside the company domains in tools that hold company accounts only. Rules and levels come from the configuration only; --explain shows why each account matched. Email addresses are masked by default. Calls no API, needs no credentials, no dependencies.",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "bin": {
+    "access-offboarding-check": "bin/access-offboarding-check.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "docs",
+    "examples",
+    "research",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test \"test/*.test.js\"",
+    "test:coverage": "node --test --experimental-test-coverage \"test/*.test.js\"",
+    "check": "node tools/check.mjs",
+    "example": "node tools/example.mjs"
+  },
+  "keywords": [
+    "offboarding",
+    "account-cleanup",
+    "deprovisioning",
+    "leavers",
+    "contractors",
+    "identity",
+    "user-access",
+    "security",
+    "ci",
+    "cli"
+  ],
+  "author": "INNERLUXES <info@innerluxes.dev>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/INNERLUXES/access-offboarding-check.git"
+  },
+  "homepage": "https://innerluxes.dev/software-development/it-staff-augmentation"
+}
